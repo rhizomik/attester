@@ -1,0 +1,29 @@
+{
+  "name": "attester",
+  "description": "Rhizomik Attester: attestation generation for uPort self-sovereign identities",
+  "license": "GPL-3.0",
+  "repository": "https://github.com/rhizomik/attester",
+  "version": "0.0.1",
+  "scripts": {
+    "build": "tsc",
+    "start": "npm run build && node ./dist",
+    "ngrok": "ngrok http -bind-tls=true 3000"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.0.0",
+    "express": "4.15.3",
+    "isemail": "^3.1.4",
+    "jwt-decode": "^2.2.0",
+    "nodemailer": "^4.6.8",
+    "nodemailer-plugin-inline-base64": "^2.1.1",
+    "uport-credentials": "^1.1.0-rc.2",
+    "uport-transports": "^0.0.66"
+  },
+  "devDependencies": {
+    "@types/config": "0.0.34",
+    "@types/mocha": "5.2.5",
+    "@types/node": "7.0.22",
+    "typescript": "2.3.3"
+  }
+}

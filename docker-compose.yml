@@ -1,0 +1,17 @@
+version: '2'
+services:
+  rhizomik-attester:
+    image: rhizomik/attester
+    container_name: attester
+    ports:
+      - "3000:3000"
+    environment:
+      - appName=uPort App
+      - network=rinkeby
+      - signingKey=GENERATED-PRIVATE-KEY
+      - subject=Email Verification
+      - from=Rhizomik Attester <attester@rhizomik.net>
+      - user=user
+      - password=pass
+      - service=gmail
+    network_mode: "bridge"
