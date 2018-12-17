@@ -4,8 +4,9 @@ import * as url from 'url';
 import * as qrImage from 'qr-image';
 import * as Isemail from 'isemail';
 import EmailSender from './emailer';
+import registerResolver from 'ethr-did-resolver';
 
-const decodeJWT = require('did-jwt').decodeJWT;
+const didJWT = require('did-jwt');
 const message = require('uport-transports').message.util;
 const transports = require('uport-transports').transport;
 
@@ -30,6 +31,7 @@ class UPortHelper {
       port: process.env.port,
       secure: process.env.secure == "true",
     });
+    registerResolver();
   }
 
   async getDisclosureQR(callbackUrl) {
@@ -78,11 +80,15 @@ class UPortHelper {
       exp: Time365Days(),
       claim: {'attester': {'email': identity.email}}
     }).then(att => {
-      console.info(`Generated attestation: ${JSON.stringify(decodeJWT(att), null, 1)}`);
+      console.info(`Generated attestation: ${JSON.stringify(didJWT.decodeJWT(att), null, 1)}`);
       return push(att)
     }).then(() => {
       console.info('Attestation pushed to the user');
     })
+  }
+
+  async verifyJWT(jwt: string) {
+    return await didJWT.verifyJWT(jwt);
   }
 
   private static createQRPNGDataURI(data) {

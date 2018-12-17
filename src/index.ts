@@ -39,6 +39,12 @@ app.post('/email/callback', async(req, res) => {
   res.send();
 });
 
+app.post('/verifyJWT', async(req, res) => {
+  const verified = await uportHelper.verifyJWT(req.body.jwt)
+    .catch(error => res.status(500).send({ error: error.toString() }));
+  res.send(verified);
+});
+
 app.listen(port, async(err) => {
   if (err) { return console.error(err); }
   uportHelper = new UPortHelper();
