@@ -11,19 +11,17 @@
   },
   "dependencies": {
     "body-parser": "^1.18.3",
-    "dotenv": "^6.0.0",
-    "express": "4.15.3",
-    "isemail": "^3.1.4",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "isemail": "^3.2.0",
     "jwt-decode": "^2.2.0",
-    "nodemailer": "^4.6.8",
+    "nodemailer": "^4.7.0",
     "nodemailer-plugin-inline-base64": "^2.1.1",
     "uport-credentials": "^1.1.0-rc.2",
-    "uport-transports": "^0.0.66"
+    "uport-transports": "^0.2.0"
   },
   "devDependencies": {
-    "@types/config": "0.0.34",
-    "@types/mocha": "5.2.5",
-    "@types/node": "7.0.22",
-    "typescript": "2.3.3"
+    "@types/node": "^10.12.15",
+    "typescript": "^3.2.2"
   }
 }

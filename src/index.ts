@@ -1,12 +1,11 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import UPortHelper from './uport_helper';
-import { log } from 'util';
 
 require('dotenv').config();
 
 const app = express();
-const port = process.env.PORT | 3000;
+const port = process.env.PORT || 3000;
 let endpoint;
 let uportHelper;
 
@@ -27,10 +26,10 @@ app.get('/', async(req, res) => {
 app.post('/callback', async(req, res) => {
   const email = await uportHelper.getVerifiedEmail(req.body.access_token);
   if (email.verifiedEmail) {
-    log(`E-Mail already attested by Rhizomik Attester: ${email.verifiedEmail}`);
+    console.info(`E-Mail already attested by Rhizomik Attester: ${email.verifiedEmail}`);
   } else if (email.unverifiedEmail) {
       uportHelper.sendVerificationEmail(email.unverifiedEmail, `${endpoint}email/callback`)
-      .then(emailInfo => log(emailInfo));
+      .then(emailInfo => console.info(emailInfo));
   }
   res.send();
 });

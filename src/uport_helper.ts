@@ -4,7 +4,6 @@ import * as url from 'url';
 import * as qrImage from 'qr-image';
 import * as Isemail from 'isemail';
 import EmailSender from './emailer';
-import { log } from 'util';
 
 const decodeJWT = require('did-jwt').decodeJWT;
 const message = require('uport-transports').message.util;
@@ -41,7 +40,7 @@ class UPortHelper {
       callbackUrl: callbackUrl
     });
     const uri = message.paramsToQueryString(message.messageToURI(requestToken), {callback_type: 'post'});
-    const qr =  this.createQRPNGDataURI(uri);
+    const qr =  UPortHelper.createQRPNGDataURI(uri);
     return { uri: uri, qr: qr };
   }
 
@@ -70,7 +69,7 @@ class UPortHelper {
     const identity = await this.credentials.authenticateDisclosureResponse(token);
 
     if (callbackEmail !== identity.email) {
-      log(`Error: callback email (${callbackEmail}) and uPort identity email (${identity.email}) are not the same`);
+      console.info(`Error: callback email (${callbackEmail}) and uPort identity email (${identity.email}) are not the same`);
       return;
     }
     const push = transports.push.send(identity.pushToken, identity.boxPub);
@@ -79,14 +78,14 @@ class UPortHelper {
       exp: Time365Days(),
       claim: {'attester': {'email': identity.email}}
     }).then(att => {
-      log(`Generated attestation: ${JSON.stringify(decodeJWT(att), null, 1)}`);
+      console.info(`Generated attestation: ${JSON.stringify(decodeJWT(att), null, 1)}`);
       return push(att)
-    }).then(res => {
-      log('Attestation pushed to the user');
+    }).then(() => {
+      console.info('Attestation pushed to the user');
     })
   }
 
-  private createQRPNGDataURI(data) {
+  private static createQRPNGDataURI(data) {
     let pngBuffer = qrImage.imageSync(data, { type: 'png', size: 4 });
     return 'data:image/png;base64,' + pngBuffer.toString('base64');
   }
